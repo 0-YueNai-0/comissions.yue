@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Mail, MessageSquare, Send, Twitter, Instagram, Globe, Loader2 } from 'lucide-react';
+import { Mail, MessageSquare, Send, Twitter, Instagram, Globe, Loader2, Music2 } from 'lucide-react';
+import { EXTERNAL_LINK_PROPS, SOCIAL_LINKS } from '../constants/socialLinks';
 
 interface ContactFormData {
   name: string;
@@ -100,15 +101,38 @@ export function ContactSection() {
               <div className="pt-6 border-t border-border/50">
                 <h4 className="font-medium mb-4">Follow Me</h4>
                 <div className="flex gap-3">
-                  <button className="w-11 h-11 rounded-xl bg-white hover:bg-primary hover:text-white border-2 border-primary/30 hover:border-primary transition-all flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110">
+                  <a
+                    href={SOCIAL_LINKS.x}
+                    {...EXTERNAL_LINK_PROPS}
+                    aria-label="X (Twitter)"
+                    className="w-11 h-11 rounded-xl bg-white hover:bg-primary hover:text-white border-2 border-primary/30 hover:border-primary transition-all flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110"
+                  >
                     <Twitter className="w-5 h-5" />
-                  </button>
-                  <button className="w-11 h-11 rounded-xl bg-white hover:bg-primary hover:text-white border-2 border-primary/30 hover:border-primary transition-all flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110">
+                  </a>
+                  <a
+                    href={SOCIAL_LINKS.instagram}
+                    {...EXTERNAL_LINK_PROPS}
+                    aria-label="Instagram"
+                    className="w-11 h-11 rounded-xl bg-white hover:bg-primary hover:text-white border-2 border-primary/30 hover:border-primary transition-all flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110"
+                  >
                     <Instagram className="w-5 h-5" />
-                  </button>
-                  <button className="w-11 h-11 rounded-xl bg-white hover:bg-primary hover:text-white border-2 border-primary/30 hover:border-primary transition-all flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110">
+                  </a>
+                  <a
+                    href={SOCIAL_LINKS.tumblr}
+                    {...EXTERNAL_LINK_PROPS}
+                    aria-label="Tumblr"
+                    className="w-11 h-11 rounded-xl bg-white hover:bg-primary hover:text-white border-2 border-primary/30 hover:border-primary transition-all flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110"
+                  >
                     <Globe className="w-5 h-5" />
-                  </button>
+                  </a>
+                  <a
+                    href={SOCIAL_LINKS.tiktok}
+                    {...EXTERNAL_LINK_PROPS}
+                    aria-label="TikTok"
+                    className="w-11 h-11 rounded-xl bg-white hover:bg-primary hover:text-white border-2 border-primary/30 hover:border-primary transition-all flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110"
+                  >
+                    <Music2 className="w-5 h-5" />
+                  </a>
                 </div>
               </div>
             </div>

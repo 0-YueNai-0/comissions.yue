@@ -1,4 +1,5 @@
 import { Heart } from 'lucide-react';
+import { EXTERNAL_LINK_PROPS, SOCIAL_LINKS } from '../constants/socialLinks';
 
 export function Footer() {
   const scrollToSection = (sectionId: string) => {
@@ -105,13 +106,35 @@ export function Footer() {
             <p className="text-sm text-muted-foreground">
               Follow me on social media for updates, WIPs, and special offers.
             </p>
-            <div className="flex gap-2">
-              <button className="px-4 py-2 bg-primary text-white hover:bg-primary/80 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-lg">
-                Twitter
-              </button>
-              <button className="px-4 py-2 bg-accent text-white hover:bg-accent/80 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-lg">
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={SOCIAL_LINKS.x}
+                {...EXTERNAL_LINK_PROPS}
+                className="px-4 py-2 bg-primary text-white hover:bg-primary/80 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-lg"
+              >
+                X
+              </a>
+              <a
+                href={SOCIAL_LINKS.instagram}
+                {...EXTERNAL_LINK_PROPS}
+                className="px-4 py-2 bg-accent text-white hover:bg-accent/80 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-lg"
+              >
                 Instagram
-              </button>
+              </a>
+              <a
+                href={SOCIAL_LINKS.tumblr}
+                {...EXTERNAL_LINK_PROPS}
+                className="px-4 py-2 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-lg"
+              >
+                Tumblr
+              </a>
+              <a
+                href={SOCIAL_LINKS.tiktok}
+                {...EXTERNAL_LINK_PROPS}
+                className="px-4 py-2 bg-primary/80 text-white hover:bg-primary/70 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-lg"
+              >
+                TikTok
+              </a>
             </div>
           </div>
         </div>

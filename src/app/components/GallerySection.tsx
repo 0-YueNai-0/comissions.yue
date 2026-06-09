@@ -1,5 +1,6 @@
 import { ExternalLink, Heart } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { EXTERNAL_LINK_PROPS, SOCIAL_LINKS } from '../constants/socialLinks';
 import exampleImage from '../../imports/6AMDg_U2_Hern_ndezWendy_Mapa.png';
 
 const galleryItems = [
@@ -105,18 +106,34 @@ export function GallerySection() {
             Visit my full portfolio on social media platforms for more examples, WIPs, and behind-the-scenes content!
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
-            <button className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200">
-              Twitter/X
-            </button>
-            <button className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200">
+            <a
+              href={SOCIAL_LINKS.x}
+              {...EXTERNAL_LINK_PROPS}
+              className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200"
+            >
+              X
+            </a>
+            <a
+              href={SOCIAL_LINKS.instagram}
+              {...EXTERNAL_LINK_PROPS}
+              className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200"
+            >
               Instagram
-            </button>
-            <button className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200">
-              ArtStation
-            </button>
-            <button className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200">
-              DeviantArt
-            </button>
+            </a>
+            <a
+              href={SOCIAL_LINKS.tumblr}
+              {...EXTERNAL_LINK_PROPS}
+              className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200"
+            >
+              Tumblr
+            </a>
+            <a
+              href={SOCIAL_LINKS.tiktok}
+              {...EXTERNAL_LINK_PROPS}
+              className="px-6 py-3 bg-white hover:bg-primary hover:text-white rounded-full transition-all border-2 border-border hover:border-primary shadow-md hover:shadow-lg hover:-translate-y-1 duration-200"
+            >
+              TikTok
+            </a>
           </div>
         </div>
       </div>
