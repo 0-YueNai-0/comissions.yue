@@ -9,6 +9,10 @@ interface ContactPayload {
   message: string;
 }
 
+type ContactValidationResult =
+  | { valid: true; data: ContactPayload }
+  | { valid: false; error: string };
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Escapa caracteres HTML para evitar inyección en el cuerpo del correo */
@@ -22,7 +26,7 @@ function escapeHtml(value: string): string {
 }
 
 /** Valida que el body contenga todos los campos requeridos con formato correcto */
-function validatePayload(body: unknown): { valid: true; data: ContactPayload } | { valid: false; error: string } {
+function validatePayload(body: unknown): ContactValidationResult {
   if (!body || typeof body !== 'object') {
     return { valid: false, error: 'El cuerpo de la solicitud es inválido.' };
   }
@@ -64,7 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const validation = validatePayload(req.body);
 
-  if (!validation.valid) {
+  if (validation.valid === false) {
     return res.status(400).json({ error: validation.error });
   }
 
