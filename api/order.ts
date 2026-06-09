@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
-import { buildOrderEmailHtml, type OrderEmailCommission } from './lib/orderEmailHtml';
+import { buildOrderEmailHtml, type OrderEmailCommission } from './lib/orderEmailHtml.js';
 
 /** Payload esperado desde OrderSection */
 interface OrderPayload {
@@ -9,6 +9,10 @@ interface OrderPayload {
   commissions: OrderEmailCommission[];
   total: number;
 }
+
+type OrderValidationResult =
+  | { valid: true; data: OrderPayload }
+  | { valid: false; error: string };
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -32,7 +36,7 @@ function isValidCommission(value: unknown): value is OrderEmailCommission {
 }
 
 /** Valida el body completo de la solicitud */
-function validatePayload(body: unknown): { valid: true; data: OrderPayload } | { valid: false; error: string } {
+function validatePayload(body: unknown): OrderValidationResult {
   if (!body || typeof body !== 'object') {
     return { valid: false, error: 'El cuerpo de la solicitud es inválido.' };
   }
@@ -95,7 +99,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const validation = validatePayload(req.body);
 
-  if (!validation.valid) {
+  if (validation.valid === false) {
     return res.status(400).json({ error: validation.error });
   }
 
