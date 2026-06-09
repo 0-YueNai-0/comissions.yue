@@ -1,23 +1,57 @@
 import { useState } from 'react';
-import { Mail, MessageSquare, Send, Twitter, Instagram, Globe } from 'lucide-react';
+import { Mail, MessageSquare, Send, Twitter, Instagram, Globe, Loader2 } from 'lucide-react';
+
+interface ContactFormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+
+const INITIAL_FORM_DATA: ContactFormData = {
+  name: '',
+  email: '',
+  subject: '',
+  message: '',
+};
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Contact form submitted:', formData);
-    alert('Thank you for your message! I will respond within 24-48 hours! 💌✨');
-  };
+  const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM_DATA);
+  const [status, setStatus] = useState<FormStatus>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Oculta mensajes previos al editar el formulario
+    if (status !== 'idle') {
+      setStatus('idle');
+    }
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el mensaje');
+      }
+
+      setFormData(INITIAL_FORM_DATA);
+      setStatus('success');
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  const isSubmitting = status === 'loading';
 
   return (
     <section id="contact" className="py-24 relative bg-gradient-to-b from-secondary/20 via-muted/30 to-primary/10">
@@ -106,7 +140,8 @@ export function ContactSection() {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder="Enter your name"
               />
             </div>
@@ -122,7 +157,8 @@ export function ContactSection() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder="your@email.com"
               />
             </div>
@@ -138,7 +174,8 @@ export function ContactSection() {
                 required
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder="What's this about?"
               />
             </div>
@@ -153,19 +190,48 @@ export function ContactSection() {
                 required
                 value={formData.message}
                 onChange={handleChange}
+                disabled={isSubmitting}
                 rows={6}
-                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none"
+                className="w-full px-4 py-3 bg-muted/30 rounded-2xl border-2 border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder="Tell me what's on your mind..."
               />
             </div>
 
             <button
               type="submit"
-              className="w-full px-8 py-4 bg-gradient-to-r from-primary to-primary/80 text-white font-bold rounded-full hover:from-primary/90 hover:to-primary transition-all shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 flex items-center justify-center gap-2 group hover:scale-105"
+              disabled={isSubmitting}
+              className="w-full px-8 py-4 bg-gradient-to-r from-primary to-primary/80 text-white font-bold rounded-full hover:from-primary/90 hover:to-primary transition-all shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 flex items-center justify-center gap-2 group hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              Send Message! 💌
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  Send Message! 💌
+                </>
+              )}
             </button>
+
+            {status === 'success' && (
+              <p
+                role="status"
+                className="text-sm text-center text-green-600 bg-green-50 border border-green-200 rounded-2xl px-4 py-3"
+              >
+                Tu mensaje fue enviado correctamente.
+              </p>
+            )}
+
+            {status === 'error' && (
+              <p
+                role="alert"
+                className="text-sm text-center text-red-600 bg-red-50 border border-red-200 rounded-2xl px-4 py-3"
+              >
+                No fue posible enviar el mensaje. Intenta nuevamente.
+              </p>
+            )}
           </form>
         </div>
       </div>
