@@ -10,7 +10,7 @@ export interface CommissionCategory {
   options: CommissionOption[];
 }
 
-/** Comisión individual agregada a la orden */
+/** Comisión individual agregada a la orden (estado del formulario) */
 export interface Commission {
   id: number;
   type: string;
@@ -18,11 +18,19 @@ export interface Commission {
   specifications: string;
 }
 
-/** Payload listo para enviar a /api/order en la siguiente fase */
+/** Comisión serializada para la API /api/order */
+export interface OrderApiCommission {
+  id: string;
+  type: string;
+  price: number;
+  specifications: string;
+}
+
+/** Payload listo para enviar a /api/order */
 export interface OrderPayload {
   name: string;
   email: string;
-  commissions: Commission[];
+  commissions: OrderApiCommission[];
   total: number;
 }
 
@@ -35,7 +43,12 @@ export function buildOrderPayload(
   return {
     name: name.trim(),
     email: email.trim(),
-    commissions,
+    commissions: commissions.map((commission) => ({
+      id: String(commission.id),
+      type: commission.type,
+      price: commission.price,
+      specifications: commission.specifications,
+    })),
     total: commissions.reduce((sum, commission) => sum + commission.price, 0),
   };
 }

@@ -72,6 +72,15 @@ export function OrderSection() {
     setAddError(null);
   };
 
+  const resetEntireForm = () => {
+    setName('');
+    setEmail('');
+    setCommissions([]);
+    setNextId(1);
+    resetCommissionForm();
+    setSubmitError(null);
+  };
+
   const handleAddOrUpdate = () => {
     setAddError(null);
 
@@ -165,18 +174,23 @@ export function OrderSection() {
     setSubmitStatus('loading');
 
     try {
-      // Preparado para la siguiente fase: POST a /api/order
       const orderPayload = buildOrderPayload(name, email, commissions);
 
-      // Simulación de envío — reemplazar por fetch('/api/order', ...) en la fase 2
-      await new Promise((resolve) => setTimeout(resolve, 400));
-      console.info('Order prepared for API:', orderPayload);
+      const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar la orden');
+      }
 
       setSubmitStatus('success');
-      resetCommissionForm();
+      resetEntireForm();
     } catch {
       setSubmitStatus('error');
-      setSubmitError('No fue posible procesar tu orden. Intenta nuevamente.');
+      setSubmitError('Error al enviar la orden.');
     }
   };
 
@@ -408,7 +422,7 @@ export function OrderSection() {
             {isSubmitting ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Procesando...
+                Enviando orden...
               </>
             ) : (
               <>
@@ -423,7 +437,7 @@ export function OrderSection() {
               role="status"
               className="text-sm text-center text-green-600 bg-green-50 border border-green-200 rounded-2xl px-4 py-3"
             >
-              Tu orden fue preparada correctamente.
+              Orden enviada correctamente.
             </p>
           )}
 
