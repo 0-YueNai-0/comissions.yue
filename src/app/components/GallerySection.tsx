@@ -2,6 +2,11 @@ import { ExternalLink, Heart } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { EXTERNAL_LINK_PROPS, SOCIAL_LINKS } from '../constants/socialLinks';
 import exampleImage from '../../imports/6AMDg_U2_Hern_ndezWendy_Mapa.png';
+import portraitImage from '../../imports/portrait.png';
+import halfBodyImage from '../../imports/half_body.png';
+import fullBodyImage from '../../imports/full_body.png';
+import fantasyImage from '../../imports/fantasy.png';
+import animeStyleImage from '../../imports/anime_style.png';
 
 const galleryItems = [
   {
@@ -11,33 +16,28 @@ const galleryItems = [
   },
   {
     category: 'Portrait',
-    color: 'from-pink-300/40 to-purple-300/40',
-    emoji: '🎭',
-    isReal: false,
+    image: portraitImage,
+    isReal: true,
   },
   {
     category: 'Half Body',
-    color: 'from-cyan-300/40 to-blue-300/40',
-    emoji: '👤',
-    isReal: false,
+    image: halfBodyImage,
+    isReal: true,
   },
   {
     category: 'Full Body',
-    color: 'from-green-300/40 to-emerald-300/40',
-    emoji: '🧍',
-    isReal: false,
+    image: fullBodyImage,
+    isReal: true,
   },
   {
     category: 'Fantasy',
-    color: 'from-purple-300/40 to-indigo-300/40',
-    emoji: '⚔️',
-    isReal: false,
+    image: fantasyImage,
+    isReal: true,
   },
   {
     category: 'Anime Style',
-    color: 'from-pink-300/40 to-rose-300/40',
-    emoji: '✨',
-    isReal: false,
+    image: animeStyleImage,
+    isReal: true,
   },
 ];
 
