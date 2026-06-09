@@ -1,7 +1,12 @@
 import { useState } from 'react';
-import { Pencil, Trash2, Send } from 'lucide-react';
+import { Pencil, Trash2, Send, Loader2 } from 'lucide-react';
+import {
+  buildOrderPayload,
+  type Commission,
+  type CommissionCategory,
+} from '../types/order';
 
-const COMMISSION_TYPES = [
+const COMMISSION_TYPES: CommissionCategory[] = [
   {
     category: 'Normal',
     options: [
@@ -33,58 +38,146 @@ const COMMISSION_TYPES = [
   },
 ];
 
-interface OrderItem {
-  id: number;
-  tipo: string;
-  costo: number;
-  specs: string;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type SubmitStatus = 'idle' | 'loading' | 'success' | 'error';
+
+const ALL_OPTIONS = COMMISSION_TYPES.flatMap((category) => category.options);
+
+function findOptionByLabel(label: string) {
+  return ALL_OPTIONS.find((option) => option.label === label);
 }
 
 export function OrderSection() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [selectedType, setSelectedType] = useState('');
-  const [specs, setSpecs] = useState('');
-  const [items, setItems] = useState<OrderItem[]>([]);
+  const [selectedCommissionType, setSelectedCommissionType] = useState('');
+  const [specifications, setSpecifications] = useState('');
+  const [commissions, setCommissions] = useState<Commission[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [nextId, setNextId] = useState(1);
 
-  const selectedOption = COMMISSION_TYPES.flatMap(c => c.options).find(o => o.label === selectedType);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
 
-  const handleAdd = () => {
-    if (!selectedType || !selectedOption) return;
-    if (editingId !== null) {
-      setItems(items.map(item =>
-        item.id === editingId
-          ? { ...item, tipo: selectedType, costo: selectedOption.price, specs }
-          : item
-      ));
-      setEditingId(null);
-    } else {
-      setItems([...items, { id: nextId, tipo: selectedType, costo: selectedOption.price, specs }]);
-      setNextId(nextId + 1);
+  const total = commissions.reduce((sum, commission) => sum + commission.price, 0);
+  const isEditing = editingId !== null;
+  const isSubmitting = submitStatus === 'loading';
+
+  const resetCommissionForm = () => {
+    setSelectedCommissionType('');
+    setSpecifications('');
+    setEditingId(null);
+    setAddError(null);
+  };
+
+  const handleAddOrUpdate = () => {
+    setAddError(null);
+
+    if (!selectedCommissionType) {
+      setAddError('Selecciona un tipo de comisión antes de agregar.');
+      return;
     }
-    setSelectedType('');
-    setSpecs('');
+
+    if (!specifications.trim()) {
+      setAddError('Describe las especificaciones de tu comisión.');
+      return;
+    }
+
+    const selectedOption = findOptionByLabel(selectedCommissionType);
+
+    if (!selectedOption) {
+      setAddError('El tipo de comisión seleccionado no es válido.');
+      return;
+    }
+
+    if (isEditing) {
+      setCommissions((prev) =>
+        prev.map((commission) =>
+          commission.id === editingId
+            ? {
+                ...commission,
+                type: selectedCommissionType,
+                price: selectedOption.price,
+                specifications: specifications.trim(),
+              }
+            : commission,
+        ),
+      );
+    } else {
+      setCommissions((prev) => [
+        ...prev,
+        {
+          id: nextId,
+          type: selectedCommissionType,
+          price: selectedOption.price,
+          specifications: specifications.trim(),
+        },
+      ]);
+      setNextId((prev) => prev + 1);
+    }
+
+    resetCommissionForm();
   };
 
-  const handleEdit = (item: OrderItem) => {
-    setSelectedType(item.tipo);
-    setSpecs(item.specs);
-    setEditingId(item.id);
+  const handleEdit = (commission: Commission) => {
+    setSelectedCommissionType(commission.type);
+    setSpecifications(commission.specifications);
+    setEditingId(commission.id);
+    setAddError(null);
+    setSubmitError(null);
   };
 
-  const handleRemove = (id: number) => {
-    setItems(items.filter(item => item.id !== id));
-    if (editingId === id) { setEditingId(null); setSelectedType(''); setSpecs(''); }
+  const handleDelete = (id: number) => {
+    setCommissions((prev) => prev.filter((commission) => commission.id !== id));
+
+    if (editingId === id) {
+      resetCommissionForm();
+    }
   };
 
-  const total = items.reduce((sum, item) => sum + item.costo, 0);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (items.length === 0) { alert('Please add at least one commission to your order! 🎨'); return; }
-    alert(`Thank you, ${name || 'dear client'}! Your order has been received! I'll contact you at ${email || 'your email'} within 24 hours~ 💖✨`);
+    setSubmitError(null);
+    setSubmitStatus('idle');
+
+    if (!name.trim()) {
+      setSubmitError('Ingresa tu nombre o usuario.');
+      return;
+    }
+
+    if (!email.trim()) {
+      setSubmitError('Ingresa tu correo electrónico.');
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(email.trim())) {
+      setSubmitError('El correo electrónico no es válido.');
+      return;
+    }
+
+    if (commissions.length === 0) {
+      setSubmitError('Agrega al menos una comisión a tu orden.');
+      return;
+    }
+
+    setSubmitStatus('loading');
+
+    try {
+      // Preparado para la siguiente fase: POST a /api/order
+      const orderPayload = buildOrderPayload(name, email, commissions);
+
+      // Simulación de envío — reemplazar por fetch('/api/order', ...) en la fase 2
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      console.info('Order prepared for API:', orderPayload);
+
+      setSubmitStatus('success');
+      resetCommissionForm();
+    } catch {
+      setSubmitStatus('error');
+      setSubmitError('No fue posible procesar tu orden. Intenta nuevamente.');
+    }
   };
 
   return (
@@ -109,53 +202,76 @@ export function OrderSection() {
           {/* Name + Email */}
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="block text-sm font-semibold text-primary">Name (Username) *</label>
+              <label htmlFor="order-name" className="block text-sm font-semibold text-primary">
+                Name (Username) *
+              </label>
               <input
                 type="text"
+                id="order-name"
                 required
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (submitError || submitStatus === 'success') {
+                    setSubmitError(null);
+                    setSubmitStatus('idle');
+                  }
+                }}
+                disabled={isSubmitting}
                 placeholder="Your name or username"
-                className="w-full px-4 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+                className="w-full px-4 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="block text-sm font-semibold text-primary">Email *</label>
+              <label htmlFor="order-email" className="block text-sm font-semibold text-primary">
+                Email *
+              </label>
               <input
                 type="email"
+                id="order-email"
                 required
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (submitError || submitStatus === 'success') {
+                    setSubmitError(null);
+                    setSubmitStatus('idle');
+                  }
+                }}
+                disabled={isSubmitting}
                 placeholder="your@email.com"
-                className="w-full px-4 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+                className="w-full px-4 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
           </div>
 
-          {/* Commission type + Specs */}
+          {/* Commission type + Specifications */}
           <div>
             <p className="text-sm font-semibold text-foreground/80 mb-3">Commission type</p>
             <div className="grid sm:grid-cols-2 gap-4">
-              {/* Radio list */}
               <div className="border-2 border-border rounded-2xl p-4 space-y-3 bg-muted/20">
-                {COMMISSION_TYPES.map(cat => (
-                  <div key={cat.category}>
-                    <p className="font-bold text-foreground text-sm mb-1">{cat.category}</p>
+                {COMMISSION_TYPES.map((category) => (
+                  <div key={category.category}>
+                    <p className="font-bold text-foreground text-sm mb-1">{category.category}</p>
                     <div className="space-y-1 pl-2">
-                      {cat.options.map(opt => (
-                        <label key={opt.label} className="flex items-center gap-2 cursor-pointer group">
+                      {category.options.map((option) => (
+                        <label key={option.label} className="flex items-center gap-2 cursor-pointer group">
                           <input
                             type="radio"
                             name="commissionType"
-                            value={opt.label}
-                            checked={selectedType === opt.label}
-                            onChange={() => setSelectedType(opt.label)}
+                            value={option.label}
+                            checked={selectedCommissionType === option.label}
+                            onChange={() => {
+                              setSelectedCommissionType(option.label);
+                              setAddError(null);
+                            }}
+                            disabled={isSubmitting}
                             className="accent-primary w-3.5 h-3.5"
                           />
                           <span className="text-sm text-foreground/80 group-hover:text-foreground transition-colors">
-                            {opt.label}
+                            {option.label}
                           </span>
-                          <span className="ml-auto text-xs font-bold text-primary">${opt.price}</span>
+                          <span className="ml-auto text-xs font-bold text-primary">${option.price}</span>
                         </label>
                       ))}
                     </div>
@@ -163,62 +279,97 @@ export function OrderSection() {
                 ))}
               </div>
 
-              {/* Specs textarea */}
               <div className="space-y-1.5">
-                <label className="block text-sm font-semibold text-foreground/80">Specifications:</label>
+                <label htmlFor="order-specifications" className="block text-sm font-semibold text-foreground/80">
+                  Specifications:
+                </label>
                 <textarea
-                  value={specs}
-                  onChange={e => setSpecs(e.target.value)}
+                  id="order-specifications"
+                  value={specifications}
+                  onChange={(e) => {
+                    setSpecifications(e.target.value);
+                    setAddError(null);
+                  }}
+                  disabled={isSubmitting}
                   rows={10}
                   placeholder="Describe your character, pose, expression, references, colors..."
-                  className="w-full h-full min-h-[200px] px-3 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none text-sm"
+                  className="w-full h-full min-h-[200px] px-3 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                 />
               </div>
             </div>
           </div>
 
-          {/* Add button */}
-          <div>
+          {/* Add / Update button */}
+          <div className="space-y-2">
             <button
               type="button"
-              onClick={handleAdd}
-              disabled={!selectedType}
+              onClick={handleAddOrUpdate}
+              disabled={isSubmitting}
               className="px-8 py-2.5 bg-yellow-400 hover:bg-yellow-500 disabled:opacity-40 disabled:cursor-not-allowed text-yellow-900 font-bold rounded-full transition-all shadow-md hover:shadow-lg hover:scale-105 text-sm"
             >
-              {editingId !== null ? 'Update ✏️' : 'Add ➕'}
+              {isEditing ? 'Update ✏️' : 'Add ➕'}
             </button>
+
+            {addError && (
+              <p role="alert" className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2">
+                {addError}
+              </p>
+            )}
           </div>
 
           {/* Order table */}
-          <div className="border-2 border-border rounded-2xl overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="border-2 border-border rounded-2xl overflow-hidden overflow-x-auto">
+            <table className="w-full text-sm min-w-[640px]">
               <thead className="bg-yellow-100 border-b-2 border-border">
                 <tr>
                   <th className="px-4 py-2.5 text-left font-bold text-foreground/70 w-12">No.</th>
-                  <th className="px-4 py-2.5 text-left font-bold text-foreground/70">Type</th>
+                  <th className="px-4 py-2.5 text-left font-bold text-foreground/70 w-40">Type</th>
+                  <th className="px-4 py-2.5 text-left font-bold text-foreground/70">Specifications</th>
                   <th className="px-4 py-2.5 text-right font-bold text-foreground/70 w-20">Cost</th>
-                  <th className="px-4 py-2.5 w-16"></th>
+                  <th className="px-4 py-2.5 text-center font-bold text-foreground/70 w-24">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {items.length === 0 ? (
+                {commissions.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground text-sm">
+                    <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground text-sm">
                       No commissions added yet~ Select a type and click Add! 🎨
                     </td>
                   </tr>
                 ) : (
-                  items.map((item, idx) => (
-                    <tr key={item.id} className={`border-t border-border/40 ${editingId === item.id ? 'bg-primary/5' : 'hover:bg-muted/30'} transition-colors`}>
-                      <td className="px-4 py-2.5 text-foreground/60">{idx + 1}</td>
-                      <td className="px-4 py-2.5 font-medium text-foreground">{item.tipo}</td>
-                      <td className="px-4 py-2.5 text-right font-bold text-primary">${item.costo}</td>
-                      <td className="px-4 py-2.5">
-                        <div className="flex items-center justify-end gap-1">
-                          <button type="button" onClick={() => handleEdit(item)} className="p-1 rounded-lg hover:bg-primary/10 text-primary transition-colors">
+                  commissions.map((commission, index) => (
+                    <tr
+                      key={commission.id}
+                      className={`border-t border-border/40 ${
+                        editingId === commission.id ? 'bg-primary/5' : 'hover:bg-muted/30'
+                      } transition-colors`}
+                    >
+                      <td className="px-4 py-2.5 text-foreground/60 align-top">{index + 1}</td>
+                      <td className="px-4 py-2.5 font-medium text-foreground align-top">{commission.type}</td>
+                      <td className="px-4 py-2.5 text-foreground/80 align-top whitespace-pre-wrap break-words">
+                        {commission.specifications}
+                      </td>
+                      <td className="px-4 py-2.5 text-right font-bold text-primary align-top">
+                        ${commission.price}
+                      </td>
+                      <td className="px-4 py-2.5 align-top">
+                        <div className="flex items-center justify-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleEdit(commission)}
+                            disabled={isSubmitting}
+                            aria-label={`Edit ${commission.type}`}
+                            className="p-1 rounded-lg hover:bg-primary/10 text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
                             <Pencil className="w-3.5 h-3.5" />
                           </button>
-                          <button type="button" onClick={() => handleRemove(item.id)} className="p-1 rounded-lg hover:bg-rose-100 text-rose-400 transition-colors">
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(commission.id)}
+                            disabled={isSubmitting}
+                            aria-label={`Delete ${commission.type}`}
+                            className="p-1 rounded-lg hover:bg-rose-100 text-rose-400 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
@@ -251,17 +402,46 @@ export function OrderSection() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full px-8 py-4 bg-gradient-to-r from-primary to-primary/80 text-white font-bold rounded-full hover:from-primary/90 hover:to-primary transition-all shadow-xl hover:shadow-2xl hover:shadow-primary/30 flex items-center justify-center gap-2 group hover:scale-105"
+            disabled={isSubmitting}
+            className="w-full px-8 py-4 bg-gradient-to-r from-primary to-primary/80 text-white font-bold rounded-full hover:from-primary/90 hover:to-primary transition-all shadow-xl hover:shadow-2xl hover:shadow-primary/30 flex items-center justify-center gap-2 group hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            Submit Order! 💖
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Procesando...
+              </>
+            ) : (
+              <>
+                <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Submit Order! 💖
+              </>
+            )}
           </button>
+
+          {submitStatus === 'success' && (
+            <p
+              role="status"
+              className="text-sm text-center text-green-600 bg-green-50 border border-green-200 rounded-2xl px-4 py-3"
+            >
+              Tu orden fue preparada correctamente.
+            </p>
+          )}
+
+          {submitError && (
+            <p
+              role="alert"
+              className="text-sm text-center text-red-600 bg-red-50 border border-red-200 rounded-2xl px-4 py-3"
+            >
+              {submitError}
+            </p>
+          )}
         </form>
 
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground">
             Prefer to reach out directly?{' '}
             <button
+              type="button"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               className="text-primary hover:text-primary/80 underline"
             >
