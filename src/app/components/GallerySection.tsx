@@ -1,4 +1,5 @@
-import { ExternalLink, Heart } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { ExternalLink, Heart, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { EXTERNAL_LINK_PROPS, SOCIAL_LINKS } from '../constants/socialLinks';
 import exampleImage from '../../imports/6AMDg_U2_Hern_ndezWendy_Mapa.png';
@@ -41,6 +42,42 @@ const galleryItems: GalleryItem[] = [
 ];
 
 export function GallerySection() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (image: string, title: string) => {
+    setSelectedImage(image);
+    setSelectedTitle(title);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+    setSelectedTitle(null);
+  }, []);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [isModalOpen, closeModal]);
+
   return (
     <section id="gallery" className="py-24 bg-gradient-to-b from-secondary/30 via-muted/30 to-transparent relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,7 +108,11 @@ export function GallerySection() {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all flex items-end justify-center pb-8">
-                  <button className="px-6 py-3 bg-accent text-accent-foreground rounded-full flex items-center gap-2 shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  <button
+                    type="button"
+                    onClick={() => openModal(item.image, item.category)}
+                    className="px-6 py-3 bg-accent text-accent-foreground rounded-full flex items-center gap-2 shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform"
+                  >
                     <ExternalLink className="w-4 h-4" />
                     View Full Size
                   </button>
@@ -122,6 +163,37 @@ export function GallerySection() {
           </div>
         </div>
       </div>
+
+      {isModalOpen && selectedImage && selectedTitle && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
+          onClick={closeModal}
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedTitle}
+        >
+          <button
+            type="button"
+            onClick={closeModal}
+            aria-label="Close image preview"
+            className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          <div
+            className="flex max-h-[85vh] max-w-[90vw] flex-col items-center gap-4"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h3 className="text-lg font-bold text-white drop-shadow-md">{selectedTitle}</h3>
+            <img
+              src={selectedImage}
+              alt={selectedTitle}
+              className="max-h-[85vh] max-w-[90vw] rounded-2xl object-contain shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
