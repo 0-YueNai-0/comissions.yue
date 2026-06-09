@@ -8,36 +8,35 @@ import fullBodyImage from '../../imports/full_body.png';
 import fantasyImage from '../../imports/fantasy.png';
 import animeStyleImage from '../../imports/anime_style.png';
 
-const galleryItems = [
+interface GalleryItem {
+  category: string;
+  image: string;
+}
+
+const galleryItems: GalleryItem[] = [
   {
     category: 'Commission Examples',
     image: exampleImage,
-    isReal: true,
   },
   {
     category: 'Portrait',
     image: portraitImage,
-    isReal: true,
   },
   {
     category: 'Half Body',
     image: halfBodyImage,
-    isReal: true,
   },
   {
     category: 'Full Body',
     image: fullBodyImage,
-    isReal: true,
   },
   {
     category: 'Fantasy',
     image: fantasyImage,
-    isReal: true,
   },
   {
     category: 'Anime Style',
     image: animeStyleImage,
-    isReal: true,
   },
 ];
 
@@ -60,38 +59,24 @@ export function GallerySection() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {galleryItems.map((item, index) => (
+          {galleryItems.map((item) => (
             <div
-              key={index}
+              key={item.category}
               className="group relative bg-card border-2 border-border rounded-3xl overflow-hidden hover:border-primary transition-all hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2 duration-300"
             >
-              {item.isReal ? (
-                <div className="aspect-[3/4] relative overflow-hidden bg-muted">
-                  <ImageWithFallback
-                    src={item.image}
-                    alt={item.category}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all flex items-end justify-center pb-8">
-                    <button className="px-6 py-3 bg-accent text-accent-foreground rounded-full flex items-center gap-2 shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
-                      <ExternalLink className="w-4 h-4" />
-                      View Full Size
-                    </button>
-                  </div>
+              <div className="aspect-[3/4] relative overflow-hidden bg-muted">
+                <ImageWithFallback
+                  src={item.image}
+                  alt={item.category}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all flex items-end justify-center pb-8">
+                  <button className="px-6 py-3 bg-accent text-accent-foreground rounded-full flex items-center gap-2 shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                    <ExternalLink className="w-4 h-4" />
+                    View Full Size
+                  </button>
                 </div>
-              ) : (
-                <div className={`aspect-[3/4] bg-gradient-to-br ${item.color} flex items-center justify-center relative`}>
-                  <div className="text-7xl opacity-70">{item.emoji}</div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-all transform scale-75 group-hover:scale-100">
-                      <button className="px-6 py-3 bg-accent text-accent-foreground rounded-full flex items-center gap-2 shadow-xl">
-                        <ExternalLink className="w-4 h-4" />
-                        View Full Size
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+              </div>
               <div className="p-5 bg-gradient-to-r from-secondary/40 to-muted/40">
                 <h3 className="font-bold text-lg">{item.category}</h3>
                 <p className="text-sm text-muted-foreground">Commission Example</p>
