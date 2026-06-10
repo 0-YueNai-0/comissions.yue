@@ -12,19 +12,19 @@ const chibiTiers = [
 
 const especialItems = [
   {
-    name: 'Mini cómic',
+    name: 'Mini Comic',
     price: '$10',
     note: 'Price varies by length & detail',
     includes: ['Multiple panels', 'Sequential art', 'Custom story'],
   },
   {
-    name: 'Ficha de personaje',
+    name: 'Character Sheet',
     price: '$25',
     note: null,
     includes: ['2 full bodies', '1 half body', '1 chibi'],
   },
   {
-    name: 'Hoja de modelo',
+    name: 'Model Sheet',
     price: '$25',
     note: null,
     includes: ['2 full bodies', '3 half bodies', 'Expression sheet'],

@@ -24,16 +24,16 @@ const COMMISSION_TYPES: CommissionCategory[] = [
   {
     category: 'Chibi',
     options: [
-      { label: 'Chibi - Color base', price: 5 },
-      { label: 'Chibi - Renderizado', price: 8 },
+      { label: 'Chibi - Flat Color', price: 5 },
+      { label: 'Chibi - Rendered', price: 8 },
     ],
   },
   {
     category: 'Especial',
     options: [
-      { label: 'Mini cómic', price: 10 },
-      { label: 'Ficha de personaje', price: 25 },
-      { label: 'Hoja de modelo', price: 25 },
+      { label: 'Mini Comic', price: 10 },
+      { label: 'Character Sheet', price: 25 },
+      { label: 'Model Sheet', price: 25 },
     ],
   },
 ];
