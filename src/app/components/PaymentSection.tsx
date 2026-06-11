@@ -31,11 +31,11 @@ export function PaymentSection() {
         <div className="text-center space-y-6 mb-16">
           <div className="inline-flex items-center gap-2 mb-2">
             <span className="text-2xl">💳</span>
-            <span className="text-primary font-bold">Payment Options2</span>
+            <span className="text-primary font-bold">Payment Option</span>
             <span className="text-2xl">💳</span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-            Safe & Secure Payments!
+            Safe & Secure Payments2!
           </h2>
           <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
             Choose from secure payment options! All transactions are processed safely~ 💕
