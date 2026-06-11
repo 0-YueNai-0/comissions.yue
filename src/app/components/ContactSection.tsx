@@ -93,7 +93,7 @@ export function ContactSection() {
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium">Discord</p>
-                    <p className="text-sm text-muted-foreground">ArtistName#0000</p>
+                    <p className="text-sm text-muted-foreground">yuenai06</p>
                   </div>
                 </div>
               </div>
