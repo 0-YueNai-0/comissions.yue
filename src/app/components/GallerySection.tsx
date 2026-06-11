@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ExternalLink, Heart, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { EXTERNAL_LINK_PROPS, SOCIAL_LINKS } from '../constants/socialLinks';
-import exampleImage from '../../imports/6AMDg_U2_Hern_ndezWendy_Mapa.png';
+import commissionExamplesImage from '../../imports/commission_examples.png';
 import portraitImage from '../../imports/portrait.png';
 import halfBodyImage from '../../imports/half_body.png';
 import fullBodyImage from '../../imports/full_body.png';
@@ -17,7 +17,7 @@ interface GalleryItem {
 const galleryItems: GalleryItem[] = [
   {
     category: 'Commission Examples',
-    image: exampleImage,
+    image: commissionExamplesImage,
   },
   {
     category: 'Portrait',
