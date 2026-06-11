@@ -9,13 +9,6 @@ const paymentMethods = [
     preferred: true,
   },
   {
-    icon: Wallet,
-    name: 'Stripe',
-    description: 'Credit and debit cards processed securely through Stripe.',
-    features: ['Quick checkout', 'Multiple currencies', 'Secure payment'],
-    preferred: false,
-  },
-  {
     icon: DollarSign,
     name: 'Ko-fi',
     description: 'Support me on Ko-fi with commission payment.',
@@ -35,7 +28,7 @@ export function PaymentSection() {
             <span className="text-2xl">💳</span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-            Safe & Secure Payments2!
+            Safe & Secure Payments!
           </h2>
           <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
             Choose from secure payment options! All transactions are processed safely~ 💕
