@@ -7,7 +7,7 @@ const terms = [
     points: [
       '50% upfront deposit required to start work',
       'Remaining 50% due before final file delivery',
-      'Accepted methods: PayPal, Stripe, Ko-fi',
+      'Accepted methods: PayPal, (other options are negotiable)',
       'All prices in USD',
     ],
   },
