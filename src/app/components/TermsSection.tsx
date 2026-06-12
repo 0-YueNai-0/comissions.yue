@@ -27,7 +27,7 @@ const terms = [
     points: [
       'Major revisions during sketch phase: free',
       'Minor tweaks during final phase: included',
-      'Additional revision rounds: $15 each',
+      'Additional revision rounds: $3 each',
       'Must request within 7 days of delivery',
     ],
   },
@@ -36,7 +36,6 @@ const terms = [
     title: 'Usage Rights',
     points: [
       'Personal use included in all commissions',
-      'Commercial rights: +$100',
       'Artist retains right to display work in portfolio',
       'Credit appreciated but not required',
     ],
@@ -49,14 +48,14 @@ const terms = [
       'NSFW/explicit adult content',
       'Heavy gore or violence',
       'Traced or copied existing artwork',
+      'Furries (sorry)',
     ],
   },
   {
     icon: FileText,
     title: 'Delivery',
     points: [
-      'High-resolution PNG (300 DPI minimum)',
-      'PSD/source files for Full Body and above',
+      'High-resolution PNG (2500px minimum)',
       'Delivered via email or Google Drive',
       'Watermark-free finals after full payment',
     ],
