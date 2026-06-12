@@ -28,12 +28,19 @@ export function HeroSection() {
             </div>
 
             <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-                Let Me Bring Your
-                <span className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-sm">
-                  Dreams to Life! 🌟
-                </span>
-              </h1>
+             <h1 className="flex flex-col">
+  <span className="text-3xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+    Let Me
+  </span>
+
+  <span className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+    Bring Your
+  </span>
+
+  <span className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-sm text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+    Dreams to Life! 🌟
+  </span>
+</h1>
               <p className="text-xl text-foreground/80 max-w-xl leading-relaxed">
                 Cute and professional digital art commissions for your characters, OCs, fanart, and original creations.
                 Quality artwork with love and care! 💖
