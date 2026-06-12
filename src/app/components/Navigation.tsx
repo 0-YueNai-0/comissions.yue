@@ -54,7 +54,7 @@ export function Navigation() {
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <span className="hidden sm:block font-bold text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                ArtCommissions
+                Yue_Nai
               </span>
             </button>
           </div>
