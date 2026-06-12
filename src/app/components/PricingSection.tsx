@@ -11,6 +11,11 @@ const chibiTiers = [
   { size: 'Full Body', colorBase: 9, rendered: 12 },
 ];
 
+const chibiSmallTiers = [
+  { size: 'Half Body', colorBase: 2, rendered: 6 },
+  { size: 'Full Body', colorBase: 5, rendered: 8 },
+];
+
 const especialItems = [
   {
     name: 'Mini Comic',
@@ -117,7 +122,32 @@ export function PricingSection() {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+                
+                <tr className="bg-purple-100">
+    <td colSpan={3} className="px-6 py-2 font-bold text-center">
+      Small Chibis
+        </td>
+        </tr>
+  {chibiSmallTiers.map(tier => (
+    <tr
+      key={`small-${tier.size}`}
+      className="hover:bg-purple-50/50 transition-colors">
+      <td className="px-6 py-4 font-bold text-foreground">
+        {tier.size}
+      </td>
+      <td className="px-6 py-4 text-center">
+        <span className="px-3 py-1 bg-pink-100 text-pink-700 font-bold rounded-full">
+          ${tier.colorBase}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-center">
+        <span className="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full">
+          ${tier.rendered}
+        </span>
+      </td>
+    </tr>
+  ))}
+</tbody>
             </table>
           </div>
         </div>
