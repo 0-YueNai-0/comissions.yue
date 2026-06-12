@@ -110,7 +110,7 @@ export function PricingSection() {
                       <span className="px-3 py-1 bg-pink-100 text-pink-700 font-bold rounded-full">${tier.colorBase}</span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full">${tier.renderizado}</span>
+                      <span className="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full">${tier.rendered}</span>
                     </td>
                   </tr>
                 ))}
