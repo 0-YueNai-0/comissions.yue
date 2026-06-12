@@ -187,11 +187,7 @@ export function CatalogSection() {
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-pink-400 to-rose-400 text-white font-bold rounded-full hover:from-pink-500 hover:to-rose-500 transition-all shadow-lg hover:shadow-xl hover:scale-105"
             >
-              <button
-    class="order-btn"
-    data-option="lineart-halfbody">
-    Order This Commission ✨
-</button>
+      
               <Heart className="w-5 h-5 fill-current" />
               Get in Touch!
             </button>
