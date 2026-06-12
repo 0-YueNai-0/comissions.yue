@@ -17,7 +17,7 @@ const terms = [
     points: [
       'Standard turnaround: 3-7 business days',
       'Complex scenes may take up to 14 days',
-      'Rush delivery available for +$50',
+      'Rush delivery available for +$10',
       'Regular WIP updates provided',
     ],
   },
