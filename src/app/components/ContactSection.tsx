@@ -145,7 +145,7 @@ export function ContactSection() {
               </p>
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-muted-foreground">Usually active: 10 AM - 8 PM EST</span>
+                <span className="text-muted-foreground">Usually active: 12 AM - 9 PM EST</span>
               </div>
             </div>
           </div>
