@@ -53,7 +53,7 @@ export function PricingSection() {
             Transparent & Affordable!
           </h2>
           <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-            Clear upfront pricing with no hidden fees! All commissions include revisions and source files~ 💖
+            Clear upfront pricing with no hidden fees! All commissions include revisions and high quality~ 💖
           </p>
         </div>
 
