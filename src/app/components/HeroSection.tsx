@@ -29,7 +29,7 @@ export function HeroSection() {
 
             <div className="space-y-6">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-                Bring Your
+                Let Me Bring Your
                 <span className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-sm">
                   Dreams to Life! 🌟
                 </span>
@@ -58,14 +58,14 @@ export function HeroSection() {
 
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center space-y-2 p-4 bg-white rounded-3xl shadow-lg border-2 border-primary/20">
-                <div className="text-4xl font-bold text-primary">500+</div>
-                <div className="text-sm text-muted-foreground font-semibold">Happy Clients</div>
+                <div className="text-4xl font-bold text-primary">10+</div>
+                <div className="text-sm text-muted-foreground font-semibold">Happy Clients (I'm still a beginner!)</div>
               </div>
               <div className="text-center space-y-2 p-4 bg-white rounded-3xl shadow-lg border-2 border-accent/20">
                 <div className="text-4xl font-bold text-accent flex items-center justify-center gap-1">
                   4.9<Star className="w-6 h-6 fill-accent" />
                 </div>
-                <div className="text-sm text-muted-foreground font-semibold">Rating</div>
+                <div className="text-sm text-muted-foreground font-semibold">Rating owo</div>
               </div>
               <div className="text-center space-y-2 p-4 bg-white rounded-3xl shadow-lg border-2 border-secondary/40">
                 <div className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">3-7d</div>
