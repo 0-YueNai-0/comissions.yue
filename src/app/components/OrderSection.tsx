@@ -16,9 +16,9 @@ const COMMISSION_TYPES: CommissionCategory[] = [
       { label: 'Flat Color - Bust', price: 9 },
       { label: 'Flat Color - Half Body', price: 10 },
       { label: 'Flat Color - Full Body', price: 12 },
-      { label: 'Renderizado - Bust', price: 11 },
-      { label: 'Renderizado - Half Body', price: 13 },
-      { label: 'Renderizado - Full Body', price: 15 },
+      { label: 'Rendered - Bust', price: 11 },
+      { label: 'Rendered - Half Body', price: 13 },
+      { label: 'Rendered - Full Body', price: 15 },
     ],
   },
   {
@@ -47,10 +47,10 @@ const COMMISSION_TYPES: CommissionCategory[] = [
      options: [
       { label: 'Additional character (+50%)', price: 0},
       { label: 'Rush delivery (2-3 days)', price: 10 },
-      { label: 'Complex background', price: 5 },
-      { label: 'Commercial rights', price: 20 },
+      { label: 'Complex background', price: 8 },
+      { label: 'Basic background', price: 3 },
       { label: 'Extra revision round', price: 3 },
-      { label: 'Process video/timelapse', price: 5 },
+      { label: 'Process video/timelapse', price: 2 },
      ],
   },
 ];
