@@ -13,9 +13,9 @@ const COMMISSION_TYPES: CommissionCategory[] = [
       { label: 'Line art - Bust', price: 4 },
       { label: 'Line art - Half Body', price: 6 },
       { label: 'Line art - Full Body', price: 8 },
-      { label: 'Color base - Bust', price: 9 },
-      { label: 'Color base - Half Body', price: 10 },
-      { label: 'Color base - Full Body', price: 13 },
+      { label: 'Flat Color - Bust', price: 9 },
+      { label: 'Flat Color - Half Body', price: 10 },
+      { label: 'Flat Color - Full Body', price: 12 },
       { label: 'Renderizado - Bust', price: 11 },
       { label: 'Renderizado - Half Body', price: 13 },
       { label: 'Renderizado - Full Body', price: 15 },
@@ -24,16 +24,32 @@ const COMMISSION_TYPES: CommissionCategory[] = [
   {
     category: 'Chibi',
     options: [
-      { label: 'Chibi - Flat Color', price: 5 },
-      { label: 'Chibi - Rendered', price: 8 },
+      { label: 'Half Body (Small) - Flat Color', price: 2 },
+      { label: 'Half Body (Small) - Rendered', price: 6 },
+      { label: 'Full Body (Small) - Flat Color', price: 5 },
+      { label: 'Full body (Small) - Rendered', price: 8 },
+      { label: 'Half Body (Large) - Flat Color', price: 5 },
+      { label: 'Half Body (Large) - Rendered', price: 9 },
+      { label: 'Full Body (Large) - Flat Color', price: 8 },
+      { label: 'Full Body (Large) - Rendered', price: 12 },
     ],
   },
   {
-    category: 'Especial',
+    category: 'Special',
     options: [
       { label: 'Mini Comic', price: 10 },
       { label: 'Character Sheet', price: 25 },
       { label: 'Model Sheet', price: 25 },
+    ],
+  },
+  {
+    category: 'Add-ons & Extras',
+    options: [
+      { label: 'Additional character', price: 50% },
+      { label: 'Rush delivery (2-3 days)', price: 10 },
+      { label: 'Complex background', price: 8 },
+      { label: 'Basic background', price: 3 },
+      { label: 'Process video/timelapse', price: 2 },
     ],
   },
 ];
