@@ -55,7 +55,7 @@ export function PricingSection() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-5">
             <span className="px-4 py-1.5 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-full text-sm shadow-md">Normal</span>
-            <p className="text-sm text-muted-foreground">Line art, Color base & Renderizado</p>
+            <p className="text-sm text-muted-foreground">Line art, Flat Color & Renderized</p>
           </div>
           <div className="bg-white border-3 border-border rounded-3xl overflow-hidden shadow-xl">
             <table className="w-full text-sm">
@@ -63,8 +63,8 @@ export function PricingSection() {
                 <tr>
                   <th className="px-6 py-3 text-left font-bold text-foreground/70">Size</th>
                   <th className="px-6 py-3 text-center font-bold text-foreground/70">Line Art</th>
-                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Color Base</th>
-                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Renderizado</th>
+                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Flat Color</th>
+                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Renderized</th>
                 </tr>
               </thead>
               <tbody>
@@ -98,8 +98,8 @@ export function PricingSection() {
               <thead className="bg-purple-50 border-b-2 border-border">
                 <tr>
                   <th className="px-6 py-3 text-left font-bold text-foreground/70">Type</th>
-                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Color Base</th>
-                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Renderizado</th>
+                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Flat Color</th>
+                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Renderized</th>
                 </tr>
               </thead>
               <tbody>
@@ -170,12 +170,12 @@ export function PricingSection() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { name: 'Additional character', price: '+$8' },
-                { name: 'Complex background', price: '+$5' },
+                { name: 'Additional character', price: '+50%' },
+                { name: 'Complex background', price: '+$8' },
                 { name: 'Extra revision round', price: '+$3' },
                 { name: 'Rush delivery (2-3 days)', price: '+$10' },
-                { name: 'Commercial rights', price: '+$20' },
-                { name: 'Process video/timelapse', price: '+$5' },
+                { name: 'Basic background', price: '+$3' },
+                { name: 'Process video/timelapse', price: '+$2' },
               ].map((addon, index) => (
                 <div
                   key={index}
