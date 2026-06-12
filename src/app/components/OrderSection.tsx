@@ -41,6 +41,18 @@ const COMMISSION_TYPES: CommissionCategory[] = [
       { label: 'Character Sheet', price: 25 },
       { label: 'Model Sheet', price: 25 },
     ],
+  },
+   {
+  category: 'Add-ons & Extras',
+     options: [
+      { label: 'Additional character (+50%)', price: 0},
+      { label: 'Rush delivery (2-3 days)', price: 10 },
+      { label: 'Complex background', price: 5 },
+      { label: 'Commercial rights', price: 20 },
+      { label: 'Extra revision round', price: 3 },
+      { label: 'Process video/timelapse', price: 5 },
+     ],
+  },
 ];
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
