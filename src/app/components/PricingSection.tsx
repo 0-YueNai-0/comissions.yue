@@ -55,7 +55,7 @@ export function PricingSection() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-5">
             <span className="px-4 py-1.5 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-full text-sm shadow-md">Normal</span>
-            <p className="text-sm text-muted-foreground">Line art, Flat Color & Renderized</p>
+            <p className="text-sm text-muted-foreground">Line art, Flat Color & Rendered</p>
           </div>
           <div className="bg-white border-3 border-border rounded-3xl overflow-hidden shadow-xl">
             <table className="w-full text-sm">
@@ -64,7 +64,7 @@ export function PricingSection() {
                   <th className="px-6 py-3 text-left font-bold text-foreground/70">Size</th>
                   <th className="px-6 py-3 text-center font-bold text-foreground/70">Line Art</th>
                   <th className="px-6 py-3 text-center font-bold text-foreground/70">Flat Color</th>
-                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Renderized</th>
+                  <th className="px-6 py-3 text-center font-bold text-foreground/70">Rendered</th>
                 </tr>
               </thead>
               <tbody>
@@ -78,7 +78,7 @@ export function PricingSection() {
                       <span className="px-3 py-1 bg-pink-100 text-pink-700 font-bold rounded-full">${tier.colorBase}</span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full">${tier.renderizado}</span>
+                      <span className="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full">${tier.rendered}</span>
                     </td>
                   </tr>
                 ))}
