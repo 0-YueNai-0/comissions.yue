@@ -1,13 +1,13 @@
 import { Check, Plus, Sparkles } from 'lucide-react';
 
 const normalTiers = [
-  { size: 'Bust', lineArt: 4, colorBase: 9, renderizado: 11 },
-  { size: 'Half Body', lineArt: 6, colorBase: 10, renderizado: 13 },
-  { size: 'Full Body', lineArt: 8, colorBase: 12, renderizado: 15 },
+  { size: 'Bust', lineArt: 4, colorBase: 9, rendered: 11 },
+  { size: 'Half Body', lineArt: 6, colorBase: 10, rendered: 13 },
+  { size: 'Full Body', lineArt: 8, colorBase: 12, rendered: 15 },
 ];
 
 const chibiTiers = [
-  { size: 'Standard', colorBase: 5, renderizado: 8 },
+  { size: 'Standard', colorBase: 5, rendered: 8 },
 ];
 
 const especialItems = [
