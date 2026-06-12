@@ -148,7 +148,7 @@ export function CatalogSection() {
               </div>
 
               {/* Card content */}
-              <div className="p-5 space-y-3">
+              <div className="p-5 flex flex-col h-full">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-white font-bold text-lg leading-tight">{type.title}</h3>
                 </div>
@@ -165,7 +165,7 @@ export function CatalogSection() {
                 {/* CTA button */}
                 <button
                   onClick={scrollToOrder}
-                  className="w-full mt-4 px-4 py-3 bg-white/10 hover:bg-yellow-400 hover:text-yellow-900 text-white font-bold rounded-2xl border border-white/20 hover:border-yellow-400 transition-all duration-200 text-sm hover:shadow-lg hover:shadow-yellow-400/30 group-hover:scale-[1.02]"
+                  className="w-full mt-auto px-4 py-3 bg-white/10 hover:bg-yellow-400 hover:text-yellow-900 text-white font-bold rounded-2xl border border-white/20 hover:border-yellow-400 transition-all duration-200 text-sm hover:shadow-lg hover:shadow-yellow-400/30 group-hover:scale-[1.02]"
                 >
                   Order This Commission ✨
                 </button>
