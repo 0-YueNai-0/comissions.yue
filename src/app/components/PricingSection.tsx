@@ -157,7 +157,7 @@ export function PricingSection() {
           <div className="flex items-center gap-3 mb-5">
             <span className="px-4 py-1.5 bg-gradient-to-r from-yellow-400 to-amber-400 text-yellow-900 font-bold rounded-full text-sm shadow-md">
               <Sparkles className="w-3.5 h-3.5 inline mr-1" />
-              Especial
+              Special
             </span>
             <p className="text-sm text-muted-foreground">Mini comics, character sheets & model sheets</p>
           </div>
