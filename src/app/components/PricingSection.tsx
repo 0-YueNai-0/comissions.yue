@@ -7,7 +7,8 @@ const normalTiers = [
 ];
 
 const chibiTiers = [
-  { size: 'Standard', colorBase: 5, rendered: 8 },
+  { size: 'Half Body', colorBase: 5, rendered: 8 },
+  { size: 'Full Body', colorBase: 5, rendered: 8 },
 ];
 
 const especialItems = [
@@ -105,7 +106,9 @@ export function PricingSection() {
               <tbody>
                 {chibiTiers.map(tier => (
                   <tr key={tier.size} className="hover:bg-purple-50/50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-foreground">Chibi</td>
+                    <td className="px-6 py-4 font-bold text-foreground">
+                      {tier.size}
+                    </td>
                     <td className="px-6 py-4 text-center">
                       <span className="px-3 py-1 bg-pink-100 text-pink-700 font-bold rounded-full">${tier.colorBase}</span>
                     </td>
