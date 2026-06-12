@@ -24,7 +24,7 @@ export function PaymentSection() {
             Safe & Secure Payments!
           </h2>
           <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-            Choose from secure payment options! All transactions are processed safely~ 💕
+           If you use any other bank, please talk to me first to see what we can do 💕
           </p>
         </div>
 
