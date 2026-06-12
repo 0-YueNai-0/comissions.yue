@@ -165,7 +165,7 @@ export function CatalogSection() {
                 {/* CTA button */}
                 <button
                   onClick={scrollToOrder}
-                  className="w-full mt-2 px-4 py-3 bg-white/10 hover:bg-yellow-400 hover:text-yellow-900 text-white font-bold rounded-2xl border border-white/20 hover:border-yellow-400 transition-all duration-200 text-sm hover:shadow-lg hover:shadow-yellow-400/30 group-hover:scale-[1.02]"
+                  className="w-full mt-4 px-4 py-3 bg-white/10 hover:bg-yellow-400 hover:text-yellow-900 text-white font-bold rounded-2xl border border-white/20 hover:border-yellow-400 transition-all duration-200 text-sm hover:shadow-lg hover:shadow-yellow-400/30 group-hover:scale-[1.02]"
                 >
                   Order This Commission ✨
                 </button>
