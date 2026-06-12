@@ -148,7 +148,7 @@ export function CatalogSection() {
               </div>
 
               {/* Card content */}
-              <div className="p-5 flex flex-col h-full">
+              <div className="p-5 space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-white font-bold text-lg leading-tight">{type.title}</h3>
                 </div>
