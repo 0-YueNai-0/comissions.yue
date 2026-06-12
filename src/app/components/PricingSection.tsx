@@ -8,7 +8,7 @@ const normalTiers = [
 
 const chibiTiers = [
   { size: 'Half Body', colorBase: 5, rendered: 8 },
-  { size: 'Full Body', colorBase: 5, rendered: 8 },
+  { size: 'Full Body', colorBase: 8, rendered: 12 },
 ];
 
 const especialItems = [
