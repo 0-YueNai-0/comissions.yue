@@ -153,7 +153,7 @@ export function CatalogSection() {
                   <h3 className="text-white font-bold text-lg leading-tight">{type.title}</h3>
                 </div>
 
-                <p className="text-white/65 text-sm leading-relaxed">{type.description}</p>
+                <p className="text-white/65 text-sm leading-relaxed min-h-[60px]">{type.description}</p>
 
                 {/* Price */}
                 <div className="flex items-center gap-2 pt-1">
