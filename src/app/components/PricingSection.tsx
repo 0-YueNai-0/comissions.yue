@@ -20,7 +20,7 @@ const especialItems = [
   {
     name: 'Mini Comic',
     price: '$10',
-    note: 'Price varies by length & detail'<br>'This price applies to 2 sheets, if more are wanted, add them to the list, we can negotiate',
+    note: 'Price varies by length & detail. This price applies to 2 sheets, if more are wanted, add them to the list, we can negotiate',
     includes: ['Multiple panels', 'Sequential art', 'Custom story'],
   },
   {
