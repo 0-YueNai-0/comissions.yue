@@ -78,7 +78,7 @@ export function OrderSection() {
   const [addError, setAddError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
-
+const isEditing = editingId !== null;
 const total = commissions.reduce(
   (sum, commission) =>
     sum +
@@ -107,6 +107,7 @@ const total = commissions.reduce(
 
   const handleAddOrUpdate = () => {
     setAddError(null);
+    }
 
     if (!selectedCommissionType) {
       setAddError('Select a commission type before adding.');
