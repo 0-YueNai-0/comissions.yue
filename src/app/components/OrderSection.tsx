@@ -69,7 +69,6 @@ export function OrderSection() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [selectedCommissionType, setSelectedCommissionType] = useState('');
-  const [additionalCharacter, setAdditionalCharacter] = useState(false);
   const [specifications, setSpecifications] = useState('');
   const [commissions, setCommissions] = useState<Commission[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -78,21 +77,16 @@ export function OrderSection() {
   const [addError, setAddError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
-const isEditing = editingId !== null;
-const total = commissions.reduce(
-  (sum, commission) =>
-    sum +
-    (commission.additionalCharacter
-      ? Math.round(commission.price * 1.5)
-      : commission.price),
-  0
-);
+
+  const total = commissions.reduce((sum, commission) => sum + commission.price, 0);
+  const isEditing = editingId !== null;
+  const isSubmitting = submitStatus === 'loading';
+
   const resetCommissionForm = () => {
     setSelectedCommissionType('');
     setSpecifications('');
     setEditingId(null);
     setAddError(null);
-    setAdditionalCharacter(false);
   };
 
   const resetEntireForm = () => {
@@ -101,56 +95,51 @@ const total = commissions.reduce(
     setCommissions([]);
     setNextId(1);
     resetCommissionForm();
-    setAdditionalCharacter(false);
     setSubmitError(null);
   };
 
   const handleAddOrUpdate = () => {
     setAddError(null);
-    }
 
     if (!selectedCommissionType) {
-      setAddError('Select a commission type before adding.');
+      setAddError('Selecciona un tipo de comisión antes de agregar.');
       return;
     }
 
     if (!specifications.trim()) {
-      setAddError('Describe the specifications of your commission.');
+      setAddError('Describe las especificaciones de tu comisión.');
       return;
     }
 
     const selectedOption = findOptionByLabel(selectedCommissionType);
 
-if (!selectedOption) {
-  setAddError('The selected commission type is not valid.');
-  return;
-}
+    if (!selectedOption) {
+      setAddError('El tipo de comisión seleccionado no es válido.');
+      return;
+    }
 
-    
- if (isEditing) {
-  setCommissions((prev) =>
-    prev.map((commission) =>
-      commission.id === editingId
-        ? {
-            ...commission,
-            type: selectedCommissionType,
-            price: selectedOption.price,
-            additionalCharacter: additionalCharacter,
-            specifications: specifications.trim(),
-          }
-        : commission,
-    ),
-  );
+    if (isEditing) {
+      setCommissions((prev) =>
+        prev.map((commission) =>
+          commission.id === editingId
+            ? {
+                ...commission,
+                type: selectedCommissionType,
+                price: selectedOption.price,
+                specifications: specifications.trim(),
+              }
+            : commission,
+        ),
+      );
     } else {
       setCommissions((prev) => [
         ...prev,
         {
-  id: nextId,
-  type: selectedCommissionType,
-  price: selectedOption.price,
-  additionalCharacter: additionalCharacter,
-  specifications: specifications.trim(),
-},
+          id: nextId,
+          type: selectedCommissionType,
+          price: selectedOption.price,
+          specifications: specifications.trim(),
+        },
       ]);
       setNextId((prev) => prev + 1);
     }
@@ -180,22 +169,22 @@ if (!selectedOption) {
     setSubmitStatus('idle');
 
     if (!name.trim()) {
-      setSubmitError('Enter your name or username.');
+      setSubmitError('Ingresa tu nombre o usuario.');
       return;
     }
 
     if (!email.trim()) {
-      setSubmitError('Enter your email address.');
+      setSubmitError('Ingresa tu correo electrónico.');
       return;
     }
 
     if (!EMAIL_REGEX.test(email.trim())) {
-      setSubmitError('The email address is invalid.');
+      setSubmitError('El correo electrónico no es válido.');
       return;
     }
 
     if (commissions.length === 0) {
-      setSubmitError('Add at least one commission to your order.');
+      setSubmitError('Agrega al menos una comisión a tu orden.');
       return;
     }
 
@@ -211,14 +200,14 @@ if (!selectedOption) {
       });
 
       if (!response.ok) {
-        throw new Error('Error sending order');
+        throw new Error('Error al enviar la orden');
       }
 
       setSubmitStatus('success');
       resetEntireForm();
     } catch {
       setSubmitStatus('error');
-      setSubmitError('Error sending order');
+      setSubmitError('Error al enviar la orden.');
     }
   };
 
@@ -284,7 +273,6 @@ if (!selectedOption) {
                 placeholder="your@email.com"
                 className="w-full px-4 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               />
-              </form>
             </div>
           </div>
 
@@ -322,33 +310,25 @@ if (!selectedOption) {
                 ))}
               </div>
 
-  <div className="space-y-1.5">
-  <label htmlFor="order-specifications" className="block text-sm font-semibold text-foreground/80">
-    Specifications:
-  </label>
-
-  <textarea
-    id="order-specifications"
-    value={specifications}
-    onChange={(e) => {
-      setSpecifications(e.target.value);
-      setAddError(null);
-    }}
-    disabled={isSubmitting}
-    rows={10}
-    placeholder="Describe your character, pose, expression, references, colors..."
-    className="w-full min-h-[200px] px-3 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none text-sm"
-  />
-
-  <label className="flex items-center gap-2 text-sm mt-2">
-    <input
-      type="checkbox"
-      checked={additionalCharacter}
-      onChange={(e) => setAdditionalCharacter(e.target.checked)}
-    />
-    Additional Character (+50%)
-  </label>
-</div>
+              <div className="space-y-1.5">
+                <label htmlFor="order-specifications" className="block text-sm font-semibold text-foreground/80">
+                  Specifications:
+                </label>
+                <textarea
+                  id="order-specifications"
+                  value={specifications}
+                  onChange={(e) => {
+                    setSpecifications(e.target.value);
+                    setAddError(null);
+                  }}
+                  disabled={isSubmitting}
+                  rows={10}
+                  placeholder="Describe your character, pose, expression, references, colors..."
+                  className="w-full h-full min-h-[200px] px-3 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Add / Update button */}
           <div className="space-y-2">
@@ -401,9 +381,7 @@ if (!selectedOption) {
                         {commission.specifications}
                       </td>
                       <td className="px-4 py-2.5 text-right font-bold text-primary align-top">
-                        ${commission.additionalCharacter
-  ? Math.round(commission.price * 1.5)
-  : commission.price}
+                        ${commission.price}
                       </td>
                       <td className="px-4 py-2.5 align-top">
                         <div className="flex items-center justify-center gap-1">
@@ -451,7 +429,7 @@ if (!selectedOption) {
               A 50% deposit is required to start work.
             </p>
           </div>
-          <form>
+
           {/* Submit */}
           <button
             type="submit"
