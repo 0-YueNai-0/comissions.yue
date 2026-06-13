@@ -102,19 +102,19 @@ export function OrderSection() {
     setAddError(null);
 
     if (!selectedCommissionType) {
-      setAddError('Selecciona un tipo de comisión antes de agregar.');
+      setAddError('Select a commission type before adding.');
       return;
     }
 
     if (!specifications.trim()) {
-      setAddError('Describe las especificaciones de tu comisión.');
+      setAddError('Describe the specifications of your commission.');
       return;
     }
 
     const selectedOption = findOptionByLabel(selectedCommissionType);
 
     if (!selectedOption) {
-      setAddError('El tipo de comisión seleccionado no es válido.');
+      setAddError('The selected commission type is not valid.');
       return;
     }
 
@@ -169,22 +169,22 @@ export function OrderSection() {
     setSubmitStatus('idle');
 
     if (!name.trim()) {
-      setSubmitError('Ingresa tu nombre o usuario.');
+      setSubmitError('Enter your name or username.');
       return;
     }
 
     if (!email.trim()) {
-      setSubmitError('Ingresa tu correo electrónico.');
+      setSubmitError('Enter your email address.');
       return;
     }
 
     if (!EMAIL_REGEX.test(email.trim())) {
-      setSubmitError('El correo electrónico no es válido.');
+      setSubmitError('The email address is invalid.');
       return;
     }
 
     if (commissions.length === 0) {
-      setSubmitError('Agrega al menos una comisión a tu orden.');
+      setSubmitError('Add at least one commission to your order.');
       return;
     }
 
@@ -200,14 +200,14 @@ export function OrderSection() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al enviar la orden');
+        throw new Error('Error sending order');
       }
 
       setSubmitStatus('success');
       resetEntireForm();
     } catch {
       setSubmitStatus('error');
-      setSubmitError('Error al enviar la orden.');
+      setSubmitError('Error sending order');
     }
   };
 
