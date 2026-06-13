@@ -450,7 +450,7 @@ if (!selectedOption) {
               A 50% deposit is required to start work.
             </p>
           </div>
-
+          <form>
           {/* Submit */}
           <button
             type="submit"
