@@ -18,7 +18,7 @@ export function Footer() {
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary via-accent to-secondary flex items-center justify-center shadow-lg shadow-primary/30">
                 <span className="text-xl">✨</span>
               </div>
-              <span className="font-bold text-lg">ArtCommissions</span>
+              <span className="font-bold text-lg">Yue_Nai</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Professional digital art commissions for your characters and creative projects.
@@ -141,7 +141,7 @@ export function Footer() {
 
         <div className="pt-8 border-t-2 border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-foreground/70 font-medium">
-            © 2026 ArtCommissions. All rights reserved! ✨
+            © 2026 Yue_Nai. All rights reserved! ✨
           </p>
           <p className="text-sm text-foreground/70 flex items-center gap-1.5 font-medium">
             Made with <Heart className="w-5 h-5 text-accent fill-accent animate-pulse" /> for the community
