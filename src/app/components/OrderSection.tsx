@@ -46,10 +46,13 @@ const COMMISSION_TYPES: CommissionCategory[] = [
    {
   category: 'Add-ons & Extras',
      options: [
+      { label: 'Line art - Extra character', price: 3 },
+      { label: 'Flat color - Extra character', price: 4 },
+      { label: 'Rendered - Extra character', price: 6 },
+      { label: 'Chibi - Extra character', price: 2 },
       { label: 'Rush delivery (2-3 days)', price: 10 },
       { label: 'Complex background', price: 8 },
       { label: 'Basic background', price: 3 },
-      { label: 'Extra revision round', price: 3 },
       { label: 'Process video/timelapse', price: 2 },
      ],
   },
@@ -454,7 +457,7 @@ export function OrderSection() {
               role="status"
               className="text-sm text-center text-green-600 bg-green-50 border border-green-200 rounded-2xl px-4 py-3"
             >
-              Orden enviada correctamente.
+              Order sent successfully.
             </p>
           )}
 
