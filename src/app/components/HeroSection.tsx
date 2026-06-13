@@ -65,7 +65,7 @@ export function HeroSection() {
 
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center space-y-2 p-4 bg-white rounded-3xl shadow-lg border-2 border-primary/20">
-                <div className="text-4xl font-bold text-primary">10+</div>
+                <div className="text-4xl font-bold text-primary">25+</div>
                 <div className="text-sm text-muted-foreground font-semibold">Happy Clients (I'm still a beginner!)</div>
               </div>
               <div className="text-center space-y-2 p-4 bg-white rounded-3xl shadow-lg border-2 border-accent/20">
