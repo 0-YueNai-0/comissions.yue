@@ -4,6 +4,7 @@ import {
   buildOrderPayload,
   type Commission,
   type CommissionCategory,
+  
 } from '../types/order';
 
 const COMMISSION_TYPES: CommissionCategory[] = [
@@ -45,7 +46,6 @@ const COMMISSION_TYPES: CommissionCategory[] = [
    {
   category: 'Add-ons & Extras',
      options: [
-      { label: 'Additional character (+50%)', price: 0},
       { label: 'Rush delivery (2-3 days)', price: 10 },
       { label: 'Complex background', price: 8 },
       { label: 'Basic background', price: 3 },
@@ -69,6 +69,7 @@ export function OrderSection() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [selectedCommissionType, setSelectedCommissionType] = useState('');
+  const [additionalCharacter, setAdditionalCharacter] = useState(false);
   const [specifications, setSpecifications] = useState('');
   const [commissions, setCommissions] = useState<Commission[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -78,15 +79,20 @@ export function OrderSection() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
 
-  const total = commissions.reduce((sum, commission) => sum + commission.price, 0);
-  const isEditing = editingId !== null;
-  const isSubmitting = submitStatus === 'loading';
-
+const total = commissions.reduce(
+  (sum, commission) =>
+    sum +
+    (commission.additionalCharacter
+      ? Math.round(commission.price * 1.5)
+      : commission.price),
+  0
+);
   const resetCommissionForm = () => {
     setSelectedCommissionType('');
     setSpecifications('');
     setEditingId(null);
     setAddError(null);
+    setAdditionalCharacter(false);
   };
 
   const resetEntireForm = () => {
@@ -95,6 +101,7 @@ export function OrderSection() {
     setCommissions([]);
     setNextId(1);
     resetCommissionForm();
+    setAdditionalCharacter(false);
     setSubmitError(null);
   };
 
@@ -113,33 +120,36 @@ export function OrderSection() {
 
     const selectedOption = findOptionByLabel(selectedCommissionType);
 
-    if (!selectedOption) {
-      setAddError('The selected commission type is not valid.');
-      return;
-    }
+if (!selectedOption) {
+  setAddError('The selected commission type is not valid.');
+  return;
+}
 
-    if (isEditing) {
-      setCommissions((prev) =>
-        prev.map((commission) =>
-          commission.id === editingId
-            ? {
-                ...commission,
-                type: selectedCommissionType,
-                price: selectedOption.price,
-                specifications: specifications.trim(),
-              }
-            : commission,
-        ),
-      );
+    
+ if (isEditing) {
+  setCommissions((prev) =>
+    prev.map((commission) =>
+      commission.id === editingId
+        ? {
+            ...commission,
+            type: selectedCommissionType,
+            price: selectedOption.price,
+            additionalCharacter: additionalCharacter,
+            specifications: specifications.trim(),
+          }
+        : commission,
+    ),
+  );
     } else {
       setCommissions((prev) => [
         ...prev,
         {
-          id: nextId,
-          type: selectedCommissionType,
-          price: selectedOption.price,
-          specifications: specifications.trim(),
-        },
+  id: nextId,
+  type: selectedCommissionType,
+  price: selectedOption.price,
+  additionalCharacter: additionalCharacter,
+  specifications: specifications.trim(),
+},
       ]);
       setNextId((prev) => prev + 1);
     }
@@ -310,25 +320,33 @@ export function OrderSection() {
                 ))}
               </div>
 
-              <div className="space-y-1.5">
-                <label htmlFor="order-specifications" className="block text-sm font-semibold text-foreground/80">
-                  Specifications:
-                </label>
-                <textarea
-                  id="order-specifications"
-                  value={specifications}
-                  onChange={(e) => {
-                    setSpecifications(e.target.value);
-                    setAddError(null);
-                  }}
-                  disabled={isSubmitting}
-                  rows={10}
-                  placeholder="Describe your character, pose, expression, references, colors..."
-                  className="w-full h-full min-h-[200px] px-3 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none text-sm disabled:opacity-60 disabled:cursor-not-allowed"
-                />
-              </div>
-            </div>
-          </div>
+  <div className="space-y-1.5">
+  <label htmlFor="order-specifications" className="block text-sm font-semibold text-foreground/80">
+    Specifications:
+  </label>
+
+  <textarea
+    id="order-specifications"
+    value={specifications}
+    onChange={(e) => {
+      setSpecifications(e.target.value);
+      setAddError(null);
+    }}
+    disabled={isSubmitting}
+    rows={10}
+    placeholder="Describe your character, pose, expression, references, colors..."
+    className="w-full min-h-[200px] px-3 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors resize-none text-sm"
+  />
+
+  <label className="flex items-center gap-2 text-sm mt-2">
+    <input
+      type="checkbox"
+      checked={additionalCharacter}
+      onChange={(e) => setAdditionalCharacter(e.target.checked)}
+    />
+    Additional Character (+50%)
+  </label>
+</div>
 
           {/* Add / Update button */}
           <div className="space-y-2">
@@ -381,7 +399,9 @@ export function OrderSection() {
                         {commission.specifications}
                       </td>
                       <td className="px-4 py-2.5 text-right font-bold text-primary align-top">
-                        ${commission.price}
+                        ${commission.additionalCharacter
+  ? Math.round(commission.price * 1.5)
+  : commission.price}
                       </td>
                       <td className="px-4 py-2.5 align-top">
                         <div className="flex items-center justify-center gap-1">
