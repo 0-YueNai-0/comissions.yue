@@ -284,6 +284,7 @@ if (!selectedOption) {
                 placeholder="your@email.com"
                 className="w-full px-4 py-2.5 bg-yellow-50 border-2 border-yellow-200 rounded-xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               />
+              </form>
             </div>
           </div>
 
